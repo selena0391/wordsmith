@@ -1,0 +1,23 @@
+.App {
+  background-color: #282c34;
+  display: grid;
+  overflow: hidden;
+  height: 100%;
+  grid-template-columns: repeat(5, 20vw);
+  grid-template-rows: repeat(5, 20vh);
+  grid-template-areas:
+        ". top top top . ."
+        ". top top top  . ."
+        ". top top top . ."
+        ". top top top . ."
+        ". bottom bottom bottom . .";
+}
+
+.Top{
+    grid-area: top;
+}
+
+.Bottom{
+    grid-area: bottom;
+}
+

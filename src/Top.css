@@ -1,0 +1,10 @@
+.Top {
+    vertical-align: top;
+    align-items: baseline;
+    align-self: baseline;
+    align-content: flex-end;
+}
+
+.message-list{
+    
+}
