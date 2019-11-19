@@ -1,0 +1,22 @@
+.App {
+  background-color: lightblue;
+  display: grid;
+  position: fixed;
+  height: 100%;
+  grid-template-columns: repeat(5, 20vw);
+  grid-template-rows: repeat(5, 20vh);
+  grid-template-areas:
+        ". . top top . ."
+        ". . top top  . ."
+        ". . top top . ."
+        ". . top top . ."
+        ". . bottom bottom . .";
+}
+
+.Top{
+    grid-area: top;
+}
+
+.Bottom{
+    grid-area: bottom;
+}
