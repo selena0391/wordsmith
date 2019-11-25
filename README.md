@@ -1,24 +1,26 @@
-# ![alt-tag](./FILENAME.gif) 
-# NAME OF PROJECT
+# WordSmith
 
-### Minimum Viable Product
+Want to learn a language while interacting with native speakers of said language? Welcome to WordSmith, 
+a translation text messaging application. Use just like a regular text messaging app, but you will also 
+receive a translated message from the foreign language speaker you are texting! A text based universal
+translator!
 
-* TEXT HERE
-* TEXT HERE
-* TEXT HERE
+    
+Approach Ta
 
-### Approach Taken
+    //Created a database....
+    Incorporated forms for text field, send, and dropdown menu features.
+    Implemented a "search bar" that allows the user to search for languages.
+    //Created a Dashboard page that allows logged-in users to store specific data
 
-* Created a navigation bar that prompts the user with "log in" and "sign up" options
-* Incorporated forms for the "log in" and "sign up" features
-* Implemented a "search bar" that allows the user to search for foods
-* Created a Dashboard page that allows logged-in users to store specific data
+Technologies used
 
+    Developed with JavaScript, PostGresQL, Google Translate API, React, Node.js, Sequalize
 
-### Technologies used
+Installation Instructions
 
-* **TECHNAMEHERE** We did this 
-
-
-### Installation Instructions
-* TEXT HERE
+    npm install --save sequelize
+    npm install --save express
+    npm install --save @google-cloud/translate
+    npm install --save pg 
+    npm install --save pg-hstore
