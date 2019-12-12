@@ -1,63 +1,74 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const pg = require('pg');
-const PORT = 3002;
+require('dotenv').config({ path: '.env' });
 
-const pool = new pg.Pool ({
-    port: 5432,
-    password: '123456',
-    database: 'interspeak',
-    max: 10,
-    host: 'localhost',
-    user: 'postgres'
-});
+    const express = require('express');
+    const bodyParser = require('body-parser');
+    const cors = require('cors');
+    const Chatkit = require('@pusher/chatkit-server');
+    const AWS = require('aws-sdk');
 
-const app = express();
+    const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+    const chatkit = new Chatkit.default({
+      instanceLocator: process.env.CHATKIT_INSTANCE_LOCATOR,
+      key: process.env.CHATKIT_SECRET_KEY,
+    });
 
-app.use(morgan('dev'));
+    const translate = new AWS.Translate({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: 'us-east-2',
+    });
 
-app.use(function(req, res, next){
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+    app.use(cors());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/api/new-username', function(req, res){
-  //console.log(req.body);
-  //var id = req.body.id;
-  var username = req.body.username;
-  //var email = req.body.email;
-  //var native_language = req.body.native_language;
-  pool.connect((err, db, done) => {
-  if(err){
-    return response.status(400).send(err);
-  }
-  else {
-    /*
-    var id = 1;
-    var username = 'test1';
-    var email = 'test2';
-    var native_language = 'test3';
-    */
-    //db.query('INSERT INTO users (id, username, email, native_language) VALUES($1, $2, $3, $4)',[id, username, email, native_language], (err, table) => {
-      db.query('INSERT INTO users (username) VALUES($1)',[username, email], (err, table) => {
-      done();
-      if(err){
-        return response.status(400).send(err);
-      }
-      else {
-        //console.log(table)
-        console.log('DATA INSERTED');
-        db.end();
-        response.status(201).send({message: 'Data inserted!'});
-      }
-    })
-  }
-})
-});
+    app.post('/translate', (req, res) => {
+      const { text, lang } = req.body;
+      const params = {
+        SourceLanguageCode: 'auto',
+        TargetLanguageCode: lang,
+        Text: text,
+      };
 
-app.listen(PORT, () => console.log('Listening on port ' + PORT));
+      translate.translateText(params, (err, data) => {
+        if (err) {
+          return res.send(err);
+        };
+
+        res.json(data);
+      });
+    });
+
+    app.post('/users', (req, res) => {
+      const { userId } = req.body;
+
+      chatkit
+        .createUser({
+          id: userId,
+          name: userId,
+        })
+        .then(() => {
+          res.sendStatus(201);
+        })
+        .catch(err => {
+          if (err.error === 'services/chatkit/user_already_exists') {
+            console.log(`User already exists: ${userId}`);
+            res.sendStatus(200);
+          } else {
+            res.status(err.status).json(err);
+          }
+        });
+    });
+
+    app.post('/authenticate', (req, res) => {
+      const authData = chatkit.authenticate({
+        userId: req.query.user_id,
+      });
+      res.status(authData.status).send(authData.body);
+    });
+
+    app.set('port', process.env.PORT || 5200);
+    const server = app.listen(app.get('port'), () => {
+      console.log(`Express running → PORT ${server.address().port}`);
+    });
