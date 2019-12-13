@@ -22,6 +22,7 @@ h4 {
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
+  background-color: #40396e;
 }
 
 .right-sidebar {
@@ -62,7 +63,7 @@ h4 {
   font-size: 18px;
   color: #181919;
   cursor: pointer;
-  border-bottom: 1px solid #eee;
+  border-bottom: #40396e;
   margin-bottom: 0;
 }
 
@@ -76,7 +77,7 @@ h4 {
   opacity: 0;
   pointer-events: none;
   font-size: 20px;
-  border: 1px solid #eee;
+  border: #40396e;
   border-radius: 5px;
   margin-bottom: 0;
   padding: 0 10px;
@@ -103,8 +104,8 @@ h4 {
 }
 
 .chat-rooms .active {
-  background-color: #eee;
-  color: #181919;
+  background-color:#40396e;
+  color:  #eee;
 }
 
 .chat-rooms li:hover {
