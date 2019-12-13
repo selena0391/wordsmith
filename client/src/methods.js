@@ -70,6 +70,7 @@ function connectToRoom(id = 'ce85a77e-4ed9-479e-a4cf-40410361796f') {
     .catch(console.error);
 }
 
+
 function connectToChatkit(event) {
   event.preventDefault();
 

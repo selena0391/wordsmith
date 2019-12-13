@@ -123,6 +123,7 @@ class App extends Component {
               <option value="es">Spanish</option>
               <option value="de">German</option>
               <option value="ru">Russian</option>
+              <option value="chi">Chinese</option>
             </select>
           ) : null}
         </aside>
